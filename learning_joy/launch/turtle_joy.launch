@@ -9,6 +9,9 @@
     <param name="deadzone" value="0.12" />
   </node>
 
+<!-- gui node -->
+  <node name="qt_viewer" pkg="camera_gui" type="camera_gui" respawn="false"/>
+
  <!-- Axes -->
   <param name="axis_linear" value="1" type="int"/>
   <param name="axis_angular" value="0" type="int"/>
