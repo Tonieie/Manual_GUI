@@ -1,0 +1,25 @@
+<launch>
+  <arg name="DEVICE" default="/dev/video0"/>
+  <!-- The GStreamer framerate needs to be an integral fraction -->
+  <arg name="FPS" default="30/1"/>
+
+  <node pkg="nodelet" type="nodelet"
+    name="standalone_nodelet" args="manager"
+    output="screen"/>
+
+  <node ns="Channel1" pkg="nodelet" type="nodelet" name="GSCamNodelet1" args="load gscam/GSCamNodelet standalone_nodelet" output="screen">
+    <param name="camera_name" value="default"/>
+    <param name="camera_info_url" value="package://gscam/examples/uncalibrated_parameters.ini"/>
+    <param name="gscam_config" value="rtspsrc location=rtsp://10.42.2.100:7070/udp/channel1/stream1 buffer-mode=0 drop-on-latency=true timeout=0 do-retransmission=false latency=0 name=src_1 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! videoconvert name=1"/>
+    <param name="frame_id" value="/v4l_frame"/>
+    <param name="sync_sink" value="true"/>
+  </node>                  
+
+  <!--node ns="Channel2" pkg="nodelet" type="nodelet" name="GSCamNodelet2" args="load gscam/GSCamNodelet standalone_nodelet" output="screen">
+    <param name="camera_name" value="default"/>
+    <param name="camera_info_url" value="package://gscam/examples/uncalibrated_parameters.ini"/>
+    <param name="gscam_config" value="rtspsrc location=rtsp://10.42.2.100:7070/udp/channel1/stream1 buffer-mode=0 drop-on-latency=true timeout=0 do-retransmission=false latency=0 name=src_1 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! videoconvert name=1"/>
+    <param name="frame_id" value="/v4l_frame"/>
+    <param name="sync_sink" value="true"/>
+  </node-->                  
+</launch>

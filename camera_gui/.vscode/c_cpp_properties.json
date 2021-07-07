@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/opt/ros/melodic/include/**",
+         "/usr/include/**",
+         "~/catkin_ws/devel/include",
+         "/usr/lib/qt5/bin"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

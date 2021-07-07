@@ -1,0 +1,45 @@
+<launch>
+  <!-- This launchfile should bring up a node that broadcasts a ros image
+       transport on /webcam/image_raw -->
+
+  <arg name="DEVICE" default="/dev/video0"/>
+  <!-- The GStreamer framerate needs to be an integral fraction -->
+  <arg name="FPS" default="30/1"/>
+  <arg name="PUBLISH_FRAME" default="false"/>
+  <arg name="GST10" default="true"/>
+
+  <node ns="Channel1" name="gscam_driver_v4l1" pkg="gscam" type="gscam" output="screen">
+    <param name="camera_name" value="default"/>
+    <param name="camera_info_url" value="package://gscam/examples/uncalibrated_parameters.ini"/>
+    <param unless="$(arg GST10)" name="gscam_config" value="rtspsrc location=rtsp://10.42.2.100:7070/udp/channel1/stream1 buffer-mode=0 drop-on-latency=true timeout=0 do-retransmission=false latency=0 name=src_1 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! videoconvert name=1"/>
+    <param if="$(arg GST10)" name="gscam_config" value="rtspsrc location=rtsp://10.42.2.100:7070/udp/channel1/stream1 buffer-mode=0 drop-on-latency=true timeout=0 do-retransmission=false latency=0 name=src_1 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! videoconvert name=1"/>
+    <param name="frame_id" value="/v4l_frame"/>
+    <param name="sync_sink" value="true"/>
+  </node>
+  <node ns="Channel2" name="gscam_driver_v4l2" pkg="gscam" type="gscam" output="screen">
+    <param name="camera_name" value="default"/>
+    <param name="camera_info_url" value="package://gscam/examples/uncalibrated_parameters.ini"/>
+    <param unless="$(arg GST10)" name="gscam_config" value="rtspsrc location=rtsp://10.42.2.100:7070/udp/channel2/stream1 buffer-mode=0 drop-on-latency=true timeout=0 do-retransmission=false latency=0 name=src_1 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! videoconvert name=1"/>
+    <param if="$(arg GST10)" name="gscam_config" value="rtspsrc location=rtsp://10.42.2.100:7070/udp/channel2/stream1 buffer-mode=0 drop-on-latency=true timeout=0 do-retransmission=false latency=0 name=src_1 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! videoconvert name=1"/>
+    <param name="frame_id" value="/v4l_frame"/>
+    <param name="sync_sink" value="true"/>
+  </node>
+
+  <node ns="Channel3" name="gscam_driver_v4l3" pkg="gscam" type="gscam" output="screen">
+    <param name="camera_name" value="default"/>
+    <param name="camera_info_url" value="package://gscam/examples/uncalibrated_parameters.ini"/>
+    <param unless="$(arg GST10)" name="gscam_config" value="rtspsrc location=rtsp://10.42.2.100:7070/udp/channel3/stream1 buffer-mode=0 drop-on-latency=true timeout=0 do-retransmission=false latency=0 name=src_1 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! videoconvert name=1"/>
+    <param if="$(arg GST10)" name="gscam_config" value="rtspsrc location=rtsp://10.42.2.100:7070/udp/channel3/stream1 buffer-mode=0 drop-on-latency=true timeout=0 do-retransmission=false latency=0 name=src_1 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! videoconvert name=1"/>
+    <param name="frame_id" value="/v4l_frame"/>
+    <param name="sync_sink" value="true"/>
+  </node>
+  <node ns="Channel4" name="gscam_driver_v4l4" pkg="gscam" type="gscam" output="screen">
+    <param name="camera_name" value="default"/>
+    <param name="camera_info_url" value="package://gscam/examples/uncalibrated_parameters.ini"/>
+    <param unless="$(arg GST10)" name="gscam_config" value="rtspsrc location=rtsp://10.42.2.100:7070/udp/channel4/stream1 buffer-mode=0 drop-on-latency=true timeout=0 do-retransmission=false latency=0 name=src_1 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! videoconvert name=1"/>
+    <param if="$(arg GST10)" name="gscam_config" value="rtspsrc location=rtsp://10.42.2.100:7070/udp/channel4/stream1 buffer-mode=0 drop-on-latency=true timeout=0 do-retransmission=false latency=0 name=src_1 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! videoconvert name=1"/>
+    <param name="frame_id" value="/v4l_frame"/>
+    <param name="sync_sink" value="true"/>
+  </node>
+  <node if="$(arg PUBLISH_FRAME)" name="v4l_transform" pkg="tf" type="static_transform_publisher" args="1 2 3 0 -3.141 0 /world /v4l_frame 10"/>
+</launch>
